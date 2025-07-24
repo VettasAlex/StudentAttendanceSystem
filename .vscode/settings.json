@@ -1,0 +1,7 @@
+{
+  "java.project.referencedLibraries": [
+    "d:\\githubprof\\TechProFinal\\lib\\gson-2.10.1.jar",
+    "d:\\githubprof\\TechProFinal\\lib\\servlet-api.jar"
+  ],
+  "java.project.sourcePaths": [".", "src"]
+}
