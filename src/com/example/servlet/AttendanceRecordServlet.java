@@ -47,7 +47,7 @@ public class AttendanceRecordServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         AttendanceRecord attendanceRecord = new Gson().fromJson(req.getReader(), AttendanceRecord.class);
         int id = DataStorage.attendanceRecordIdCounter++;
-        attendanceRecord.setAttendanceRecordId(id);
+        attendanceRecord.setId(id);
         DataStorage.attendanceRecords.put(id, attendanceRecord);
         resp.setStatus(HttpServletResponse.SC_CREATED);
         resp.getWriter().write("Attendance Record " + id + " was succesfully registered");

@@ -14,5 +14,5 @@ public class DataStorage {
    
    public static int studentIdCounter = 1;
    public static int courseIdCounter = 1;
-   public static int attendanceIdCounter =1;
+   public static int attendanceRecordIdCounter =1;
 }
