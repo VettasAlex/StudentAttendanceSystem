@@ -8,28 +8,31 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.example.model.AttendanceRecord;
 import com.example.model.Course;
 import com.example.model.Student;
 import com.example.storage.DataStorage;
 
-@WebServlet("/courses/*")
+@WebServlet("/attendanceRecords/*")
 
-public class CourseServlet extends HttpServlet {
+public class AttendanceRecordServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String pathInfo = req.getPathInfo();
+        resp.setContentType("application/json"); //Fix For Sending JSON
+
         if (pathInfo == null || pathInfo.equals("/")) {
-            String json = new Gson().toJson(DataStorage.courses.values());
+            String json = new Gson().toJson(DataStorage.attendanceRecords.values());
             resp.getWriter().write(json);
 
         } else { 
             try {
-                int courseId = Integer.parseInt(pathInfo.substring(1));
-                Course course = DataStorage.courses.get(courseId);
-                if(course != null) {
-                    resp.getWriter().write(new Gson().toJson(course));
+                int id = Integer.parseInt(pathInfo.substring(1));
+                AttendanceRecord attendanceRecord = DataStorage.attendanceRecords.get(id);
+                if(attendanceRecord != null) {
+                    resp.getWriter().write(new Gson().toJson(attendanceRecord));
                 } else {
                     resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 }
@@ -42,12 +45,12 @@ public class CourseServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Course course = new Gson().fromJson(req.getReader(), Course.class);
-        int courseId = DataStorage.courseIdCounter++;
-        course.setCourseId(courseId);
-        DataStorage.courses.put(courseId, course);
+        AttendanceRecord attendanceRecord = new Gson().fromJson(req.getReader(), AttendanceRecord.class);
+        int id = DataStorage.attendanceRecordIdCounter++;
+        attendanceRecord.setAttendanceRecordId(id);
+        DataStorage.attendanceRecords.put(id, attendanceRecord);
         resp.setStatus(HttpServletResponse.SC_CREATED);
-        resp.getWriter().write("Course " + courseId + " was succesfully created");
+        resp.getWriter().write("Attendance Record " + id + " was succesfully registered");
     }
 
     @Override
@@ -58,12 +61,12 @@ public class CourseServlet extends HttpServlet {
             return;
         }
 
-        int courseId = Integer.parseInt(pathInfo.substring(1));
-        Course updatedCourse = new Gson().fromJson(req.getReader(), Course.class);
-        if (DataStorage.courses.containsKey(courseId)) {
-            updatedCourse.setCourseId(courseId);
-            DataStorage.courses.put(courseId, updatedCourse);
-            resp.getWriter().write("Course Updated Succesfully");
+        int id = Integer.parseInt(pathInfo.substring(1));
+        AttendanceRecord updatedAttendanceRecord = new Gson().fromJson(req.getReader(), AttendanceRecord.class);
+        if (DataStorage.attendanceRecords.containsKey(id)) {
+            updatedAttendanceRecord.setId(id);
+            DataStorage.attendanceRecords.put(id, updatedAttendanceRecord);
+            resp.getWriter().write("Attendance Record Updated Succesfully");
         } else {
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
@@ -76,9 +79,9 @@ public class CourseServlet extends HttpServlet {
             resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             return;
         }
-        int courseId = Integer.parseInt(pathInfo.substring(1));
-        if (DataStorage.courses.remove(courseId) != null) {
-            resp.getWriter().write("Course Deleted Succesfully");
+        int id = Integer.parseInt(pathInfo.substring(1));
+        if (DataStorage.attendanceRecords.remove(id) != null) {
+            resp.getWriter().write("Attendance Record Removed from System Succesfully");
         } else {
             resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
