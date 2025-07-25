@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.example.model.Course;
-import com.example.model.Student;
 import com.example.storage.DataStorage;
 
 @WebServlet("/courses/*")
