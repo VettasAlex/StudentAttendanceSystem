@@ -11,7 +11,7 @@ import com.google.gson.Gson;
 import com.example.model.AttendanceRecord;
 import com.example.storage.DataStorage;
 
-@WebServlet("/attendanceRecords/*")
+// @WebServlet("/attendanceRecords/*")
 
 public class AttendanceRecordServlet extends HttpServlet {
 

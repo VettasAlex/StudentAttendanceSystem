@@ -12,7 +12,7 @@ import com.google.gson.Gson;
 import com.example.model.Student;
 import com.example.storage.DataStorage;
 
-@WebServlet("/students/*")
+// @WebServlet("/students/*")
 
 public class StudentServlet extends HttpServlet {
 
