@@ -5,7 +5,7 @@ public class AttendanceRecord {
     private int id;
     private int studentId;
     private int courseId;
-    private LocalDate date;
+    private String date;
     private boolean present;
 
     // getters&setters
@@ -18,8 +18,8 @@ public class AttendanceRecord {
     public int getCourseId() { return courseId; }
     public void setCourseId(int courseId) { this.courseId = courseId; }
 
-    public LocalDate getDate() { return date; }
-    public void setDate(LocalDate date) { this.date = date; }
+    public String getDate() { return date; }
+    public void setDate(String date) { this.date = date; }
 
     public boolean isPresent() { return present; }
     public void setPresent(boolean present) { this.present = present; }
