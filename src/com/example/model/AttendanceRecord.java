@@ -1,5 +1,4 @@
 package com.example.model;
-import java.time.LocalDate;
 
 public class AttendanceRecord {
     private int id;

@@ -1,2 +1,14 @@
-lib/gson-2.10.1.jar
-lib/servlet-api.jar
+
+*.class
+*.log
+*.tmp
+*.swp
+*.iml
+/.idea/
+/.vscode/
+/bin/
+/out/
+/target/
+/*.war
+*.db
+*.jar

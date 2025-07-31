@@ -1,8 +1,9 @@
 package com.example.servlet;
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
+// import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,31 +16,37 @@ import com.example.storage.DataStorage;
 
 public class AttendanceRecordServlet extends HttpServlet {
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    
+    
+@Override
+protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    resp.setContentType("application/json");
+    Gson gson = new Gson();
+    String pathInfo = req.getPathInfo(); // e.g. /date/2025-07-28 or /student/1
 
-        String pathInfo = req.getPathInfo();
-        resp.setContentType("application/json"); //Fix For Sending JSON
+    if (pathInfo != null && !pathInfo.equals("/")) {
+        String[] parts = pathInfo.substring(1).split("/");
 
-        if (pathInfo == null || pathInfo.equals("/")) {
-            String json = new Gson().toJson(DataStorage.attendanceRecords.values());
-            resp.getWriter().write(json);
+        if (parts.length == 2) {
+            String filterType = parts[0];
+            String value = parts[1];
 
-        } else { 
-            try {
-                int id = Integer.parseInt(pathInfo.substring(1));
-                AttendanceRecord attendanceRecord = DataStorage.attendanceRecords.get(id);
-                if(attendanceRecord != null) {
-                    resp.getWriter().write(new Gson().toJson(attendanceRecord));
-                } else {
-                    resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                }
-
-            } catch (NumberFormatException e){
-                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            if (filterType.equals("date")) {
+                List<AttendanceRecord> records = DataStorage.getAttendanceRecordsByDate(value);
+                resp.getWriter().write(gson.toJson(records));
+                return;
+            } else if (filterType.equals("student")) {
+                List<AttendanceRecord> records = DataStorage.getAttendanceRecordsByStudentId(value);
+                resp.getWriter().write(gson.toJson(records));
+                return;
             }
         }
     }
+
+    String json = gson.toJson(DataStorage.attendanceRecords.values());
+    resp.getWriter().write(json);
+}
+
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
